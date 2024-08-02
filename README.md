@@ -1,6 +1,3 @@
-Certainly! Here's a cleanly formatted version of the README content, which should work well when copied into GitHub.
-
----
 
 # LA House Price Predictor
 
