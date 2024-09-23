@@ -18,9 +18,12 @@ print(la_columns)
 print("Columns related to 'Los Angeles County':")
 print(la_county_columns)
 
-# Step 2: Define features based on the identified columns
-# Combine the relevant Los Angeles and Los Angeles County columns into one list of features
-features = la_columns + la_county_columns
+# Step 2: Manually clean the features list to include only existing columns
+# Remove 'Region_LosAngeles' and other non-existent columns
+features = [
+    'StateName_LA', 'State_LA', 'City_East Los Angeles', 'City_Los Angeles',
+    'Metro_Los Angeles-Long Beach-Anaheim, CA', 'CountyName_Los Angeles County'
+]
 
 # Choose the target variable (update this to match your actual target column)
 y = data['2024-07-31']  # Replace with the actual target column name
