@@ -5,10 +5,10 @@ from sklearn.metrics import mean_absolute_error
 import matplotlib.pyplot as plt
 
 # Load the preprocessed data
-data = pd.read_csv('backend/data/la_housing_data_preprocessed.csv')
+data = pd.read_csv('data/la_housing_data_preprocessed.csv')
 
 # Load the trained model
-model = joblib.load('backend/model/la_house_price_model.pkl')
+model = joblib.load('model/la_house_price_model.pkl')
 
 # Define the features and target variable
 features = ['StateName_LA', 'State_LA', 'City_East Los Angeles', 'City_Los Angeles',
