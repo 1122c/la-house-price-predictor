@@ -1,0 +1,11 @@
+import pandas as pd
+
+# Load the preprocessed data
+data = pd.read_csv('backend/data/la_housing_data_preprocessed.csv')
+
+# Save all column names to a file
+with open('backend/data/column_names.txt', 'w') as f:
+    for col in data.columns:
+        f.write(col + '\n')
+
+print("Column names have been saved to 'backend/data/column_names.txt'")

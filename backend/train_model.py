@@ -3,34 +3,35 @@ from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 import joblib
+import os
 
 # Load the preprocessed data
-data = pd.read_csv('backend/data/la_housing_data_preprocessed.csv')
+data = pd.read_csv('data/la_housing_data_preprocessed.csv')
 
-# Step 1: Identify relevant columns related to Los Angeles and Los Angeles County
-la_columns = [col for col in data.columns if 'Los Angeles' in col or 'LA' in col or 'LosAngeles' in col or 'Los_Angeles' in col]
-la_county_columns = [col for col in data.columns if 'Los Angeles County' in col or 'LA County' in col or 'LosAngelesCounty' in col or 'Los_Angeles_County' in col]
+# Load the saved scaler
+scaler_path = os.path.join('model', 'scaler.pkl')
+scaler = joblib.load(scaler_path)
 
-# Print the relevant columns
-print("Columns related to 'Los Angeles':")
-print(la_columns)
+# Load the saved feature names used during scaling
+features_path = os.path.join('model', 'features.pkl')
+scaled_features = joblib.load(features_path)
 
-print("Columns related to 'Los Angeles County':")
-print(la_county_columns)
+# Ensure that the features exist in the preprocessed data
+missing_features = [f for f in scaled_features if f not in data.columns]
+if missing_features:
+    raise KeyError(f"The following features are missing from the dataset: {missing_features}")
 
-# Step 2: Manually clean the features list to include only existing columns
-# Remove 'Region_LosAngeles' and other non-existent columns
-features = [
-    'StateName_LA', 'State_LA', 'City_East Los Angeles', 'City_Los Angeles',
-    'Metro_Los Angeles-Long Beach-Anaheim, CA', 'CountyName_Los Angeles County'
-]
+# Define the target variable (e.g., '2024-07-31')
+y = data['2024-07-31']  # Adjust to your actual target column
 
-# Choose the target variable (update this to match your actual target column)
-y = data['2024-07-31']  # Replace with the actual target column name
+# Use only the features that were used during scaling
+X = data[scaled_features]
 
-# Step 3: Train the model with the selected features
-X = data[features]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Scale the features using the same scaler
+X_scaled = scaler.transform(X)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
 # Train the model
 model = GradientBoostingRegressor()
@@ -42,5 +43,6 @@ mae = mean_absolute_error(y_test, y_pred)
 print(f'Mean Absolute Error: {mae}')
 
 # Save the trained model
-joblib.dump(model, 'backend/model/la_house_price_model.pkl')
-print("Model trained and saved successfully.")
+model_path = os.path.join('model', 'la_house_price_model.pkl')
+joblib.dump(model, model_path)
+print(f"Model trained and saved to {model_path}")
