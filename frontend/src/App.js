@@ -1,4 +1,7 @@
-import logo from './logo.svg';
+import React from 'react';
+import './App.css';
+import HousePriceForm from './components/HousePriceForm';
+import './logo.svg';
 import './App.css';
 
 function App() {
@@ -21,5 +24,15 @@ function App() {
     </div>
   );
 }
+
+// //function App() {
+//   return (
+//     <div className='App'>
+//     <header className='App-header'>
+//     <h1>LA House Price Predictor</h1>
+//     </header>
+//     </div>
+//   );
+// }
 
 export default App;

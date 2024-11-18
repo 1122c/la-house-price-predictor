@@ -32,6 +32,8 @@ const HousePriceForm = () => {
     };
 
     return (
-        <div></div>
+        <div>
+            <h2>House Price Prediction</h2>
+        </div>
     )
 }
